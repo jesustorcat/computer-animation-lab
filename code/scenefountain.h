@@ -1,5 +1,6 @@
 #ifndef SCENEFOUNTAIN_H
 #define SCENEFOUNTAIN_H
+#define _USE_MATH_DEFINES
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
@@ -9,6 +10,7 @@
 #include "particlesystem.h"
 #include "integrators.h"
 #include "colliders.h"
+#include <cmath>
 
 class SceneFountain : public Scene
 {
@@ -46,6 +48,7 @@ protected:
     unsigned int numFacesSphereS = 0;
 
     IntegratorEuler integrator;
+    IntegratorMidpoint integratorMidPoint_;
     ParticleSystem system;
     std::list<Particle*> deadParticles;
     ForceConstAcceleration* fGravity;

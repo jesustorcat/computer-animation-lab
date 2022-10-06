@@ -4,6 +4,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
+#include "colliders.h"
 #include "scene.h"
 #include "widgetprojectiles.h"
 #include "particlesystem.h"
@@ -54,6 +55,7 @@ protected:
     ForceConstAcceleration *fGravity1 = nullptr;
     ForceConstAcceleration *fGravity2 = nullptr;
     bool system1active, system2active;
+    ColliderPlane collaiderPlane_;
 
     std::list<Vec3> trajectoryAnalytic;
     std::list<Vec3> trajectoryNumerical1;

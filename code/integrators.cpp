@@ -27,9 +27,9 @@ void IntegratorMidpoint::step(ParticleSystem &system, double dt) {
     Vecd h = x0 + (dt/2)*dx;
 
     // Derivate
-    system.setState(h); // Update state!
+    system.setState(h); // Update state to get derivated
     Vecd hd = system.getDerivative();
-    system.setState(x0 + dt*hd);
+    system.setState(x0 + dt*hd/2);
 }
 
 void IntegratorRungeKuttaK2::step(ParticleSystem &system, double dt) {
@@ -48,13 +48,13 @@ void IntegratorVerlet::step(ParticleSystem &system, double dt) {
     const double k = 0.99;
     Vecd pt = system.getPositions();
     Vecd vt = system.getVelocities();
-    Vecd ptdt = pt + k*(dt*vt) + system.getAccelerations()*dt*dt;
+    Vecd ptdt = pt + k*(vt*dt) + system.getAccelerations()*dt*dt;
 
     Vecd xt = system.getState();
     Vecd dx = system.getDerivative();
     Vecd xtdt = xt + dt*dx;
     Vecd vtdt = (xtdt - xt)/dt;
 
-    system.setVelocities(vtdt);
+    //system.setVelocities(vtdt);
     system.setPositions(ptdt);
 };

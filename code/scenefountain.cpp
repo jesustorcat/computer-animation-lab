@@ -4,6 +4,8 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLVersionFunctionsFactory>
 
+#include <random>
+
 
 SceneFountain::SceneFountain() {
     widget = new WidgetFountain();
@@ -154,25 +156,47 @@ void SceneFountain::update(double dt) {
         }
 
         p->color = Vec3(153/255.0, 217/255.0, 234/255.0);
-        p->radius = 1.0;
+        p->radius = 0.5;
         p->life = maxParticleLife;
 
+
+        /**
+        // NORMAL
         double x = Random::get(-10.0, 10.0);
         double y = 0;
         double z = Random::get(-10.0, 10.0);
         p->pos = Vec3(x, y, z) + fountainPos;
         p->vel = Vec3(0,0,0);
+        **/
+
+        std::random_device rd;
+        std::uniform_real_distribution<double> dist(0, 1);
+        std::mt19937 gen(rd());
+
+        //SEMI-SPHERE
+        double alpha = 2*M_PI*(dist(gen) - 0.5);
+        double beta = M_PI*(dist(gen))/2;
+        p->pos = Vec3(cos(alpha)*cos(beta), sin(beta), sin(alpha)*cos(beta));
+        p->vel = 25*Vec3(p->pos.x(), p->pos.y(), p->pos.z());
+
+
+
+
+
     }
 
     // integration step
+    system.updateForces();
     Vecd ppos = system.getPositions();
     integrator.step(system, dt);
+    //integratorMidPoint_.step(system, dt);
     system.setPreviousPositions(ppos);
 
     // collisions
     for (Particle* p : system.getParticles()) {
         if (colliderFloor.testCollision(p)) {
-            colliderFloor.resolveCollision(p, kBounce, kFriction);
+            colliderFloor.resolveCollision(p, 0.5, 0.1);
+            p->color = Vec3(1, 0, 0);
         }
     }
 

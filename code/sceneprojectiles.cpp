@@ -100,6 +100,9 @@ void SceneProjectiles::initialize() {
     fGravity2->addInfluencedParticle(systemNumerical2.getParticle(0));
     systemNumerical2.addForce(fGravity2);
 
+    // SETTING PLANE POSITION
+    collaiderPlane_.setPlane(Vec3(0, 1, 0), 0);
+
 }
 
 
@@ -192,12 +195,16 @@ void SceneProjectiles::update(double dt) {
 
         // collision test
         Particle* p = systemNumerical1.getParticle(0);
-        if (p->pos.y() < 0) {
+
+        if (p->pos.y() <= 0) {
             // resolve
             // TODO
+            if (this->collaiderPlane_.testCollision(p)) {
+                this->collaiderPlane_.resolveCollision(p, 0.7, 0.2);
+            }
 
             // stop sim for this system
-            system1active = false;
+            system1active = true;
         }
 
         // record trajectory
@@ -216,9 +223,11 @@ void SceneProjectiles::update(double dt) {
         if (p->pos.y() < 0) {
             // resolve
             // TODO
+            this->collaiderPlane_.resolveCollision(p, 0.7, 0.2);
+
 
             // stop sim for this system
-            system2active = false;
+            system2active = true;
         }
 
         // record trajectory
