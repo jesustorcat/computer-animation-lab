@@ -29,7 +29,7 @@ void IntegratorMidpoint::step(ParticleSystem &system, double dt) {
     // Derivate
     system.setState(h); // Update state to get derivated
     Vecd hd = system.getDerivative();
-    system.setState(x0 + dt*hd/2);
+    system.setState(x0 + dt*hd);
 }
 
 void IntegratorRungeKuttaK2::step(ParticleSystem &system, double dt) {

@@ -45,14 +45,30 @@ protected:
     QOpenGLShaderProgram* shader = nullptr;
     QOpenGLVertexArrayObject* vaoSphereS = nullptr;
     QOpenGLVertexArrayObject* vaoFloor   = nullptr;
+    QOpenGLVertexArrayObject* vaoCube = nullptr;
+    QOpenGLVertexArrayObject* vaoBigSphere = nullptr;
+    QOpenGLVertexArrayObject* vaoCollisionSphere = nullptr;
+
+    Particle* bigSphereParticle;
+    Particle* collisionSphereParticle;
+
+    unsigned int numFacesCube = 6;
     unsigned int numFacesSphereS = 0;
+    unsigned int numFacesBigSphere = 0;
+    unsigned int numFacesCollisionSphere = 0;
 
     IntegratorEuler integrator;
     IntegratorMidpoint integratorMidPoint_;
     ParticleSystem system;
     std::list<Particle*> deadParticles;
     ForceConstAcceleration* fGravity;
+    ForceGravitationalAtraction* fGravitationalAtraction;
+
+
+    // Collider Cube
     ColliderPlane colliderFloor;
+    ColliderSpheric colliderSpheric;
+    //ColliderCube colliderCube_;
 
     double kBounce, kFriction;
     double emitRate;

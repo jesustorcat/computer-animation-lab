@@ -33,6 +33,22 @@ protected:
     double planeD;
 };
 
+class ColliderSpheric : public Collider{
+public:
+    ColliderSpheric() { center = Vec3(0,0,0); radius = 0; }
+    ColliderSpheric(const Vec3& c, double r) : center(c), radius(r) {}
+    virtual ~ColliderSpheric() {}
+
+    void setColliderSphere(const Vec3& c, double r) { this->center = c; this->radius = r;}
+
+    virtual bool testCollision(const Particle* p) const;
+    virtual void resolveCollision(Particle* p, double kElastic, double kFriction) const;
+
+protected:
+    Vec3 center;
+    double radius;
+};
+
 
 
 #endif // COLLIDERS_H
